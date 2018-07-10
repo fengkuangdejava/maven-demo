@@ -27,26 +27,34 @@
             </resource>
         </resources>
         <plugins>
-           <!-- <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.liting.maven.start.Start</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <!-- 添加index则不从mainfest中读取classpath，而是从Index.list中读取 -->
+                        <!--<index>true</index> -->
+                        <manifest>
+                            <!--启动类main方法-->
+                            <mainClass>com.liting.maven.start.Start</mainClass>
+                           <!-- 是否指定classthpath-->
+                            <addClasspath>true</addClasspath>
+                             <!--为下面的的<Class-Path>添加前缀,默认为空,'./'为当前目录-->
+                            <classpathPrefix>./</classpathPrefix>
+                        </manifest>
+                        <!-- 可以指定多个classPath路径-->
+                        <manifestEntries>
+                            <Class-Path>./</Class-Path>
+                            <Class-Path>../conf/</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                    <!--排除配置文件被打进jar包,jar -->
+                    <excludes>
+                        <exclude>*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
